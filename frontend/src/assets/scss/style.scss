@@ -1,0 +1,261 @@
+@import "./table.scss";
+
+:root {
+  --white: #ffffff;
+  --black: #000000;
+  --white-rgb: 255, 255, 255;
+  --black-rgb: 0, 0, 0;
+
+  --zinc-50: #fafafa;
+  --zinc-100: #f4f4f5;
+  --zinc-200: #e4e4e7;
+  --zinc-300: #d4d4d8;
+  --zinc-400: #a1a1aa;
+  --zinc-500: #71717a;
+  --zinc-600: #52525b;
+  --zinc-700: #3f3f46;
+  --zinc-800: #27272a;
+  --zinc-900: #18181b;
+  --zinc-950: #09090b;
+
+  --neutral-50: #fafafa;
+  --neutral-100: #f5f5f5;
+  --neutral-200: #e5e5e5;
+  --neutral-300: #d4d4d4;
+  --neutral-400: #a3a3a3;
+  --neutral-500: #737373;
+  --neutral-600: #525252;
+  --neutral-700: #404040;
+  --neutral-800: #262626;
+  --neutral-900: #171717;
+  --neutral-950: #0a0a0a;
+
+  --red-50: #fef2f2;
+  --red-100: #fee2e2;
+  --red-200: #fecaca;
+  --red-300: #fca5a5;
+  --red-400: #f87171;
+  --red-500: #ef4444;
+  --red-600: #dc2626;
+  --red-700: #b91c1c;
+  --red-800: #991b1b;
+  --red-900: #7f1d1d;
+  --red-950: #450a0a;
+
+  --orange-50: #fff7ed;
+  --orange-100: #ffedd5;
+  --orange-200: #fed7aa;
+  --orange-300: #fdba74;
+  --orange-400: #fb923c;
+  --orange-500: #f97316;
+  --orange-600: #ea580c;
+  --orange-700: #c2410c;
+  --orange-800: #9a3412;
+  --orange-900: #7c2d12;
+  --orange-950: #431407;
+
+  --emerald-50: #ecfdf5;
+  --emerald-100: #d1fae5;
+  --emerald-200: #a7f3d0;
+  --emerald-300: #6ee7b7;
+  --emerald-400: #34d399;
+  --emerald-500: #10b981;
+  --emerald-600: #059669;
+  --emerald-700: #047857;
+  --emerald-800: #065f46;
+  --emerald-900: #064e3b;
+  --emerald-950: #022c22;
+
+  --sky-50: #f0f9ff;
+  --sky-100: #e0f2fe;
+  --sky-200: #bae6fd;
+  --sky-300: #7dd3fc;
+  --sky-400: #38bdf8;
+  --sky-500: #0ea5e9;
+  --sky-600: #0284c7;
+  --sky-700: #0369a1;
+  --sky-800: #075985;
+  --sky-900: #0c4a6e;
+  --sky-950: #082f49;
+
+  --primary-background: var(--red-100);
+  --primary: var(--red-500);
+  --primary-text: var(--neutral-500);
+  --primary-text-title: var(--red-200);
+  --primary-text-active: var(--white);
+
+  --secondary-background: var(--neutral-200);
+  --secondary: var(--neutral-500);
+
+  --success-background: var(--emerald-50);
+  --success: var(--emerald-500);
+
+  --background: var(--neutral-100);
+  --foreground: var(--white);
+  --border: var(--zinc-200);
+
+  --text: var(--neutral-500);
+  --text-title: var(--neutral-900);
+  --text-active: var(--neutral-900);
+  --text-input: var(--neutral-900);
+  --text-muted: var(--neutral-600);
+
+  --nav-background: var(--primary);
+  --nav-text: var(--primary-text-title);
+  --nav-text-active: var(--white);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-background: var(--red-950);
+    --primary-text: var(--neutral-50);
+
+    --secondary-background: var(--neutral-800);
+
+    --success-background: var(--emerald-900);
+
+    --background: var(--neutral-950);
+    --foreground: var(--neutral-900);
+    --border: var(--zinc-800);
+
+    --text: var(--neutral-400);
+    --text-title: var(--neutral-50);
+    --text-active: var(--neutral-50);
+    --text-input: var(--neutral-50);
+    --text-muted: var(--neutral-600);
+
+    color-scheme: dark;
+
+    // Black mode
+    // --primary-background: var(--neutral-700);
+    // --primary: var(--black);
+    // --primary-text: var(--white);
+    // --primary-text-title: var(--white);
+    // --primary-text-active: var(--white);
+
+    // --nav-background: var(--black);
+    // --nav-text: var(--neutral-400);
+    // --nav-text-active: var(--white);
+  }
+}
+
+html,
+body {
+  font-family: "Inter", sans-serif;
+  color: var(--text);
+}
+
+a {
+  text-decoration: none;
+
+  &.link {
+    color: var(--primary);
+  }
+}
+
+input {
+  border: none;
+
+  appearance: none;
+
+  background-color: transparent;
+
+  color: var(--text);
+
+  &::placeholder {
+    color: var(--neutral-500);
+  }
+}
+
+button {
+  padding: 0;
+}
+
+// To-do: Disabled
+.disabled {
+  opacity: 0.5;
+
+  pointer-events: none;
+}
+
+:focus {
+  outline: none;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light {
+  border-radius: 4px;
+
+  background: white !important;
+
+  box-shadow: 0 4px 8px rgba(black, 0.025);
+
+  border: 1px solid var(--border);
+
+  .apexcharts-tooltip-series-group {
+    height: 32px;
+
+    padding: 0 16px;
+
+    display: flex;
+    align-items: center;
+
+    .apexcharts-tooltip-marker {
+      height: 8px;
+      width: 8px;
+
+      margin-right: 16px;
+
+      flex-shrink: 0;
+    }
+
+    .apexcharts-tooltip-text {
+      flex-grow: 1;
+
+      font-size: 14px !important;
+      line-height: 1;
+
+      .apexcharts-tooltip-y-group {
+        display: flex;
+
+        padding: 0;
+
+        width: 100%;
+
+        .apexcharts-tooltip-text-y-label {
+          color: var(--neutral-500);
+
+          flex-grow: 1;
+        }
+
+        .apexcharts-tooltip-text-y-value {
+          margin-left: 16px;
+
+          text-align: right;
+
+          font-weight: 500;
+          color: #171717;
+        }
+      }
+    }
+  }
+
+  .apexcharts-tooltip-title {
+    background: transparent !important;
+
+    border-bottom: 1px solid var(--border);
+
+    height: 32px;
+
+    padding: 0 16px;
+
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 0;
+
+    font-size: 14px !important;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--neutral-500);
+  }
+}
