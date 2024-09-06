@@ -25,8 +25,7 @@ create table promo_code_uses
     server_id uuid                                               not null,
     used      timestamp with time zone default CURRENT_TIMESTAMP not null,
     constraint promo_code_uses_pk
-        primary key (game_id, code, player_id)
-            on delete cascade,
+        primary key (game_id, code, player_id),
     constraint promo_codes_use_promo_codes_game_id_code_fk
         foreign key (game_id, code) references promo_codes
             on delete cascade
