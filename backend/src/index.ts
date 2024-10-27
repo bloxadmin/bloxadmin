@@ -21,7 +21,7 @@ import "./routes/notes.ts";
 import "./routes/promoCodes.ts";
 import "./routes/groups/groups.ts";
 import "./routes/actions.ts";
-import "./discord/index.ts";
+// import "./discord/index.ts";
 
 // * Jobs
 import "./jobs/stale.ts";

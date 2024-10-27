@@ -196,7 +196,8 @@ create table games
     features               feature[],
     discord_guild_id       bigint,
     root_place_id          bigint,
-    created                timestamp with time zone default now()       not null
+    created                timestamp with time zone default now()       not null,
+    last_update            timestamp with time zone default now()       not null
 );
 
 alter table games

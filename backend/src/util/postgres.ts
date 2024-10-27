@@ -15,7 +15,7 @@ const sql = postgresClient({
   max: 10,
 });
 
-window.onunload = async () => {
+globalThis.onunload = async () => {
   await sql.end();
 }
 

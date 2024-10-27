@@ -27,7 +27,6 @@ export async function getUser(userId: string | number): Promise<User> {
   const [user] = await postgres<{
     id: number;
     name: string;
-    credit: number;
     admin: boolean | null;
     discord_data: string;
   }>`
@@ -35,11 +34,9 @@ export async function getUser(userId: string | number): Promise<User> {
       players.id,
       players.name,
       users.admin,
-      users.credit,
-      discord_oauth.user_data AS discord_data
+      null AS discord_data
     FROM players
     LEFT JOIN users ON users.id = players.id
-    LEFT JOIN discord_oauth ON discord_oauth.player_id = players.id
     WHERE players.id = ${userId}
   `;
 
@@ -67,7 +64,7 @@ export async function getUser(userId: string | number): Promise<User> {
   return {
     id: user.id,
     name: user.name,
-    credit: user.credit,
+    credit: 0,
     admin: !!user.admin,
     discord: user.discord_data ? JSON.parse(user.discord_data) : undefined,
   };

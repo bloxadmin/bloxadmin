@@ -36,10 +36,11 @@ const BOT_PERMISSIONS = 536870912;
 const SCOPES = ["identify", "guilds", "email", "guilds", "role_connections.write"];
 const BOT_SCOPES = [...SCOPES, "bot", "applications.commands", "applications.commands.permissions.update"];
 
-const CLIENT_ID = Deno.env.get("DISCORD_CLIENT_ID") || "875146449267081256";
-const PUBLIC_KEY = Deno.env.get("DISCORD_PUBLIC_KEY") || "f4a72d70d4dae6ee381e3a55b5445a023dfb37ff64f1a7007edd4a5ac26c576e";
-const CLIENT_SECRET = Deno.env.get("DISCORD_CLIENT_SECRET");
-const REDIRECT_URI = Deno.env.get("DISCORD_REDIRECT_URL") || "https://api.bloxadmin.com/discord/auth";
+const API_URL = Deno.env.get("API_URL") || "https://api.bloxadmin.com";
+const CLIENT_ID = Deno.env.get("DISCORD_CLIENT_ID")!;
+const PUBLIC_KEY = Deno.env.get("DISCORD_PUBLIC_KEY")!;
+const CLIENT_SECRET = Deno.env.get("DISCORD_CLIENT_SECRET")!;
+const REDIRECT_URI = Deno.env.get("DISCORD_REDIRECT_URL") || `${API_URL}/discord/auth`;
 
 const INVITE_BASE = `${OAUTH_BASE}/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code`
 

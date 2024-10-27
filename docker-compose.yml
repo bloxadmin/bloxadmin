@@ -1,0 +1,77 @@
+services:
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+      
+    networks:
+      - bloxadmin
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/src/sql:/docker-entrypoint-initdb.d
+  influxdb:
+    image: influxdb:2
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: bloxadmin
+      DOCKER_INFLUXDB_INIT_PASSWORD: bloxadmin
+      DOCKER_INFLUXDB_INIT_ORG: bloxadmin
+      DOCKER_INFLUXDB_INIT_BUCKET: server-metrics
+      DOCKER_INFLUXDB_INIT_RETENTION: 1w
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: bloxadmin
+    networks:
+      - bloxadmin
+    volumes:
+      - influxdb_data:/root/.influxdbv2
+      - influxdb_config:/etc/influxdb2
+      - ./backend/src/influxdb:/docker-entrypoint-initdb.d
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    networks:
+      - bloxadmin
+    ports:
+      - "8000:8000"
+    # env_file:
+    #   - ./backend.env
+    environment:
+      ENVIRONMENT: production
+      JWT_SECRET: xJegEp75HTAjc9Ky
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+      INFLUX_TOKEN: bloxadmin
+      INFLUX_ORG: bloxadmin
+      INFLUX_URL: http://influxdb:8086
+      INFLUX_SERVER_BUCKET: server-metrics
+      INFLUX_GAME_BUCKET: game-aggregation
+      API_URL: http://localhost:8000
+      FRONTEND_URL: http://localhost:3000
+      ROBLOX_CLIENT_ID:
+      ROBLOX_CLIENT_SECRET:
+    depends_on:
+      - postgres
+      - influxdb
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    networks:
+      - bloxadmin
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_URL: http://localhost:8000
+
+networks:
+  bloxadmin:
+    driver: bridge
+volumes:
+  postgres_data:
+  influxdb_data:
+  influxdb_config:

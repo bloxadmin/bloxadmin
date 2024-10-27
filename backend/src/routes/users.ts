@@ -13,9 +13,15 @@ router.get("/auth/user", auth(), async (context) => {
 
 function ingestAuth(gameId: number) {
   return async (context: Context, next: Next) => {
-    const [{ ingest_key }] = await postgres<{ ingest_key: string }>`
+    const [record] = await postgres<{ ingest_key: string }>`
       SELECT ingest_key FROM games WHERE id = ${gameId}
     `;
+
+    if (!record) {
+      return context.text("Unauthorized", 401);
+    }
+
+    const { ingest_key } = record;
 
     const authHeader = context.req.headers.get("authorization");
     const auth = authHeader && authHeader.startsWith("Bearer ") && authHeader.slice(7);

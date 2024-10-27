@@ -78,9 +78,10 @@ export interface RobloxPlayer {
   displayName: string;
 }
 
-const CLIENT_ID = Deno.env.get("ROBLOX_CLIENT_ID")! || "3641758207638632061";
+const CLIENT_ID = Deno.env.get("ROBLOX_CLIENT_ID")!;
 const CLIENT_SECRET = Deno.env.get("ROBLOX_CLIENT_SECRET")!;
-const REDIRECT_URI = Deno.env.get("ROBLOX_REDIRECT_URL") || "https://api.bloxadmin.com/roblox/auth";
+const API_URL = Deno.env.get("API_URL") || "https://api.bloxadmin.com";
+const REDIRECT_URI = Deno.env.get("ROBLOX_REDIRECT_URL") || `${API_URL}/roblox/auth`;
 const SCOPES = [
   "profile",
   "openid",
@@ -93,6 +94,10 @@ const GAME_SCOPES = [
 const AUTH_URL = `https://apis.roblox.com/oauth/v1/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code&scope=${SCOPES.join("%20")}`;
 const GAME_LINK_URL = `https://apis.roblox.com/oauth/v1/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code&scope=${GAME_SCOPES.join("%20")}`;
 const USER_AGENT = "BloxdminApi/1.0";
+
+if (!CLIENT_ID || !CLIENT_SECRET) {
+  throw new Error("ROBLOX_CLIENT_ID and ROBLOX_CLIENT_SECRET must be set in the environment");
+}
 
 function getOfflinePlayer(id: number | string): RobloxPlayer {
   const name = "Offline Player " + Math.abs(Number(id));

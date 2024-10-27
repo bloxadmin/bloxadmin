@@ -5,8 +5,9 @@ import { VALID_ASSET_THUMBNAIL_SIZES, VALID_AVATAR_HEADSHOT_SIZES, VALID_GAME_IC
 import router, { Context } from "../util/router.ts";
 import { validateSizeQuery } from "../util/validators.ts";
 
-const CLIENT_ID = Deno.env.get("ROBLOX_CLIENT_ID")! || "3641758207638632061";
-const REDIRECT_URI = Deno.env.get("ROBLOX_REDIRECT_URL") || "https://api.bloxadmin.com/roblox/auth";
+const CLIENT_ID = Deno.env.get("ROBLOX_CLIENT_ID")!;
+const API_URL = Deno.env.get("API_URL") || "https://api.bloxadmin.com";
+const REDIRECT_URI = Deno.env.get("ROBLOX_REDIRECT_URL") || `${API_URL}/roblox/auth`;
 const SCOPES = [
   "profile",
   "openid",
@@ -149,12 +150,10 @@ router.get("/roblox/assetThumbnails/:asset", auth(), async (context) => {
   return context.redirect(url, 301)
 });
 
-function getRedirectOrigin() {
-  return Deno.env.get("DASHBOARD_ORIGIN") || 'http://localhost:5173'
-}
+const FRONTEND_URL = Deno.env.get("FRONTEND_URL") || "https://bloxadmin.com";
 
 router.get("/roblox/link", async (context) => {
-  const origin = getRedirectOrigin();
+  const origin = FRONTEND_URL
 
   const state = await signOAuthStateToken(`urn:bloxadmin:anonymous`, {
     'urn:bloxadmin:redirect': origin + (context.req.query("discord-verify") ? "/discord-verify" : "/"),
@@ -166,7 +165,7 @@ router.get("/roblox/link", async (context) => {
 });
 
 router.get("/roblox/link/game", async (context) => {
-  const origin = getRedirectOrigin();
+  const origin = FRONTEND_URL;
 
   const state = await signOAuthStateToken(`urn:bloxadmin:anonymous`, {
     'urn:bloxadmin:redirect': origin + '/new',

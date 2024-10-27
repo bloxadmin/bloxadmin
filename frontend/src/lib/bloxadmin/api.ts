@@ -1,10 +1,6 @@
 export const API_BASE = import.meta.env.VITE_LOCAL
   ? "http://localhost:8000"
-  : (
-    window.location.hostname === "development.bloxadmin.pages.dev"
-      ? "https://dev-api.bloxadmin.com"
-      : "https://api.bloxadmin.com"
-  );
+  : import.meta.env.VITE_API_URL
 
 export type ThumbnailSize =
   "30x30" |

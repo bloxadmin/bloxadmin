@@ -8,19 +8,15 @@ import interactionRouter from "./interactionRouter.ts";
 import { discordAuth, discordOAuth2GrantToken, discordOAuth2RefreshToken, getDiscordAuthUrl, getDiscordGuilds, getDiscordInviteUrl, getDiscordUser, getDiscordVerifyUrl, updateDiscordRoleConnection, verifyDiscordInteractions } from "./service.ts";
 import { Interaction } from "./types.ts";
 
+
+const FRONTEND_URL = Deno.env.get("FRONTEND_URL") || "https://bloxadmin.com";
+
 router.get("/discord/", (context) => {
   return context.json({
     invite: "/discord/invite",
     link: "/discord/link",
   })
 });
-
-function getOrigin(context: Context) {
-  const url = new URL(context.req.headers.get("referer") || context.req.url)
-  const origin = url.hostname.endsWith("bloxadmin.com") ? "https://bloxadmin.com" : 'http://localhost:5173'
-
-  return origin;
-}
 
 router.get("/discord/invite", auth(), async (context) => {
   const userId = context.get("userId")!;
@@ -37,7 +33,7 @@ router.get("/discord/link", auth(), async (context) => {
   const userId = context.get("userId")!;
 
   const state = await signOAuthStateToken(`urn:bloxadmin:player:${userId}`, {
-    "urn:bloxadmin:redirect": `${getOrigin(context)}/`,
+    "urn:bloxadmin:redirect": `${FRONTEND_URL}/`,
   });
 
   return context.newResponse("", 302, {
@@ -49,7 +45,7 @@ router.get("/discord/verify", auth(), async (context) => {
   const userId = context.get("userId")!;
 
   const state = await signOAuthStateToken(`urn:bloxadmin:player:${userId}`, {
-    "urn:bloxadmin:redirect": `${getOrigin(context)}/discord-verify`,
+    "urn:bloxadmin:redirect": `${FRONTEND_URL}/discord-verify`,
   });
 
   return context.newResponse("", 302, {

@@ -5,10 +5,12 @@ import router from "../util/router.ts";
 import { cors, logger } from "https://deno.land/x/hono@v2.7.0/middleware.ts";
 
 // * Middleware
+const API_URL = Deno.env.get("API_URL") || "https://api.bloxadmin.com";
+const FRONTEND_URL = Deno.env.get("FRONTEND_URL") || "https://bloxadmin.com";
 
 router.use("*",
   cors({
-    origin: ["https://api.bloxadmin.com", "https://dev-api.bloxadmin.com", "https://bloxadmin.com", "https://www.bloxadmin.com", "http://localhost:8000", "http://localhost:5173", "https://development.bloxadmin.pages.dev"],
+    origin: [API_URL, FRONTEND_URL],
     credentials: true
   })
 );

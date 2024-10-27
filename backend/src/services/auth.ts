@@ -3,11 +3,17 @@ import * as bcrypt from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
 
 export type URN = `urn:bloxadmin:${string}`;
 
+const ENVIRONMENT = Deno.env.get('ENVIRONMENT') || 'development';
 const VALID_EMOJIS = '🚗 🚓 🚕 🛺 🚙 🛻 🚌 🚐 🚎 🚑 🚒 🚚 🚛 🚜 🚘 🚔 🚖 🚍 🦽 🦼 🛹 🛼 🚲 🛴 🛵 🏍️ 🏎️ 🚄 🚅 🚈 🚝 🚞 🚃 🚋 🚆 🚉 🚊 🚇 🚟 🚠 🚡 🚂 🛩️ 🪂 ✈️ 🛫 🛬 💺 🚁 🚀 🛸 🛰️ ⛵ 🚤 🛥️ ⛴️ 🛳️ 🚢 ⚓ 🚏 ⛽ 🚨 🚥 🚦 🚧 🌌 🪐 🌍 🌎 🌏 🗺️ 🧭 🏔️ ⛰️ 🌋 🗻 🛤️ 🏕️ 🏞️ 🛣️ 🏖️ 🏜️ 🏝️ 🏟️ 🏛️ 🏗️ 🏘️ 🏙️ 🏚️ 🏠 🏡 ⛪ 🕋 🕌 🛕 🕍 ⛩️ 🏢 🏣 🏤 🏥 🏦 🏨 🏩 🏪 🏫 🏬 🏭'.split(' ');
-const secret = new TextEncoder().encode(
-  Deno.env.get('JWT_SECRET') || 'xJegEp75HTAjc9Ky',
-);
+const DEFAULT_SECRET = 'xJegEp75HTAjc9Ky';
+const SECRET = Deno.env.get('JWT_SECRET') || DEFAULT_SECRET;
+const secret = new TextEncoder().encode(SECRET);
 const alg = 'HS256';
+
+if (SECRET === DEFAULT_SECRET && ENVIRONMENT !== 'development') {
+  console.error('Using default JWT secret in production is not allowed. Please set JWT_SECRET environment variable.');
+  Deno.exit(1);
+}
 
 export function generateSalt(): string {
   return bcrypt.genSaltSync(10);
