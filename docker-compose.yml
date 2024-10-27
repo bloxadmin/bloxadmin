@@ -38,7 +38,7 @@ services:
     # env_file:
     #   - ./backend.env
     environment:
-      ENVIRONMENT: production
+      # ENVIRONMENT: production
       JWT_SECRET: xJegEp75HTAjc9Ky
       POSTGRES_HOST: postgres
       POSTGRES_PORT: 5432
@@ -52,8 +52,8 @@ services:
       INFLUX_GAME_BUCKET: game-aggregation
       API_URL: http://localhost:8000
       FRONTEND_URL: http://localhost:3000
-      ROBLOX_CLIENT_ID:
-      ROBLOX_CLIENT_SECRET:
+      ROBLOX_CLIENT_ID: 7122167809388698043
+      ROBLOX_CLIENT_SECRET: RBX-lNyje-7wZkOHghiv5IQ7cMFiW51DC0ViOJP1xagH-Etu51Gs3St8qM0O3mCpvKOF
     depends_on:
       - postgres
       - influxdb
